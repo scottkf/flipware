@@ -7,7 +7,9 @@ describe Address do
     @a1 = Address.new(:address1 => "some test street", :city => "fake", :zipcode => "34121", :address_type => "nonsense", :country => "US")
     @a2 = Address.new(:address1 => "some test street", :city => "fake", :zipcode => "34121", :address_type => "current", :country => "US")
     @a3 = Address.new(:address1 => "some test street", :city => "fake", :zipcode => "3412", :address_type => "nonsense", :country => "US")
+    @a4 = Address.new(:address1 => "street 2", :city => "fake", :zipcode => "34121", :address_type => "current", :country => "US")
   end
+  
 
   context "#valid" do
     it "should be valid" do
@@ -22,10 +24,24 @@ describe Address do
     end
   end
   
-  context "#address types" do
-    it "should update the address type if it's a new record before saving" do
-      #@p1.@a2.save
-      pending
+  context "#types" do
+    
+    before(:each) do
+      @p1.save
+      @p1.addresses = [@a2]
+      @p1.save
+      @p1.addresses += [@a4]
+      @p1.save
+    end
+    it "should update other address_types to past upon adding a new address" do
+      Address.find(@a2.id).address_type.should == "past"
+      Address.find(@a4.id).address_type.should == "current"
+    end
+    
+    it "should update other addresses_types to past upon editing an address" do
+      Address.find(@a2.id).update_attributes!(:address_type => "current")
+      Address.find(@a2.id).address_type.should == "current"
+      Address.find(@a4.id).address_type.should == "past"
     end
   end
 

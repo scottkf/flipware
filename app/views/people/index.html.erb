@@ -1,0 +1,9 @@
+<h1>Posts#index</h1>
+
+<div id="people">
+	<% @people.each do |person| %>
+	<%= link_to "#{person.first_name} #{person.last_name}", person_path(person), :class => "person", :remote => true %>
+  <% end %>
+</div>
+<div id="person">
+</div>

@@ -5,6 +5,7 @@ gem 'rails', '3.0.0'
 gem 'mysql'
 
 gem 'capybara'
+gem 'capybara-envjs'
 gem 'database_cleaner'
 gem 'cucumber-rails'
 gem 'cucumber'
